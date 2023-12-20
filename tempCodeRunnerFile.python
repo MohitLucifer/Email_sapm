@@ -1,0 +1,35 @@
+def decode_lzw(encoded, dictionary):
+    decoded = ""
+    prev = None
+    for code in encoded:
+        if code in dictionary:
+            symbol = dictionary[code]
+            decoded += symbol
+            if prev:
+                dictionary[len(dictionary) + 1] = prev + symbol
+            prev = symbol
+        else:
+            if prev:
+                symbol = prev + prev[0]
+                decoded += symbol
+                dictionary[len(dictionary) + 1] = prev + symbol
+            prev = symbol
+    return decoded
+
+# Initialize dictionary
+dictionary = {
+    1: 'a',
+    2: 'b',
+    3: 'h',
+    4: 'i',
+    5: 's',
+    6: 't'
+}
+
+# Encoded data
+encoded = [3, 4, 6, 5, 13, 5, 4, 9, 11, 17]
+
+# Decode the data
+decoded = decode_lzw(encoded, dictionary)
+
+print(decoded)
